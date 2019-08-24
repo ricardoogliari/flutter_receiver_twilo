@@ -1,0 +1,30 @@
+Esse é o código do Node.js que usa a Johnny Five e o Twilio pra mandar as mensagens SMSs.
+
+----------------------------------------------------------
+
+var five = require("johnny-five");
+var board = new five.Board();
+
+const client = require('twilio')(
+    "AC6491..........",
+    "d975f...........");
+
+board.on("ready", function() {
+    var button = new five.Button(8);
+
+    button.on("press", function() {
+        client.messages.create({
+            body: 'Porta Aberta!',
+            to: "+5511993643538",
+            from: "+12182827243"
+        });
+    });
+
+    button.on("release", function() {
+        client.messages.create({
+            body: 'Porta Fechada!',
+            to: "+5511993643538",
+            from: "+12182827243"
+        });
+    });
+});
